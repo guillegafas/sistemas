@@ -52,11 +52,66 @@ visitantes=()
 
 for ((i=0; i<4; i++)) #esta interaccion es para meter 4 ganadores en locales
 do
-	indice=$((RANDOM % ${ganadores[@]})) #esto coge un numero random 
+	indice=$((RANDOM % ${#ganadores[@]})) #esto coge un numero random 
          #y lo mete en una variable indice
 
-        locales+=${ganadores[$indice]} #esto coge el elemento de la lista en base 
+        locales+=("${ganadores[$indice]}") #esto coge el elemento de la lista en base 
 	
+	unset ganadores[$indice]
+        ganadores=("${ganadores[@]}")
 done
 
+visitantes=("${ganadores[@]}") #los equipos visitantes seran los que sobren de ganadores
 echo "los locales son ${locales[@]}"
+echo "los visitantes son ${visitantes[@]}"
+
+#vamos a ver los siguientes partidos, hacemos un for donde en la lista partidos meta
+#al local[0] con el visitante[0] y así sucesivamente 
+
+contador=1
+partidos=()
+for ((i=0; i<${#locales[@]}; i++))
+do
+	partidos+=("Partido $contador: ${locales[i]} vs ${visitantes[i]}")
+	echo "Partido $contador: ${locales[i]} vs ${visitantes[i]}"
+	contador=$((contador + 1))
+done
+
+#ahora preguntamos por los partidos y guardamos los nuevos ganadores:
+
+indice_partido=0
+for partido in "${partidos[@]}"
+do
+        echo "Dime el equipo que ha ganado en el $partido"
+        read ganador
+        ganadores[$indice_partido]=$ganador
+        indice_partido=$((indice_partido + 1))
+done
+
+echo "los ganadores: ${ganadores[@]}"
+
+#ahora creamos los partidos
+
+partidos=()
+
+partidos+=("Semifinal 1: ${ganadores[0]} vs ${ganadores[1]}")
+partidos+=("Semifinal 2: ${ganadores[2]} vs ${ganadores[3]}")
+
+echo "${partidos[0]}"
+echo "${partidos[1]}"
+
+#Preguntamos por ganadores
+indice_partido=0
+for partido in "${partidos[@]}"
+do
+        echo "Dime el equipo que ha ganado en el $partido"
+        read ganador
+        ganadores[$indice_partido]=$ganador
+        indice_partido=$((indice_partido + 1))
+done
+
+echo "La final es ${ganadores[0]} vs ${ganadores[1]}"
+
+echo "¿Qué equipo ha ganado la final?"
+read ganador_final
+echo "Enhorabuena equipo $ganador_final"
