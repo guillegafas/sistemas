@@ -5,6 +5,7 @@ do
 	read numero
 	if [[ $numero = 0 ]]
 	then
+		echo "1"
 		break
 	fi
 	resultado=1
