@@ -14,7 +14,5 @@ while true; do
     echo "D"
   elif [[ $primer_octeto -ge 240 && $primer_octeto -lt 256 ]]; then
     echo "E"
-  else
-    echo "Introduce una ip correcta"
   fi
 done
