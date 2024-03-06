@@ -3,7 +3,11 @@
 while true; do
   read ip
   primer_octeto=$(echo $ip | cut -f1 -d.)
-
+ 
+  if [ $primer_octeto -eq 0 ]; then
+	exit 0
+  fi
+ 
   if [[ $primer_octeto -ge 0 && $primer_octeto -lt 128 ]]; then
     echo "A"
   elif [[ $primer_octeto -ge 128 && $primer_octeto -lt 192 ]]; then
@@ -14,5 +18,7 @@ while true; do
     echo "D"
   elif [[ $primer_octeto -ge 240 && $primer_octeto -lt 256 ]]; then
     echo "E"
+  else
+    echo "Introduce una ip correcta"
   fi
 done
