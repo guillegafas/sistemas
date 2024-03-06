@@ -1,24 +1,25 @@
 #!/bin/bash
 
+tiempo_restante() {
+    hora_final=23
+    min_final=59
+
+    min_ingresados=$((hora * 60 + minutos))
+
+    tiempo_restante=$((1439 - $min_ingresados))
+
+    echo $tiempo_restante
+}
+
 while true; do
-    read hora
+        read hora_minutos
 
-    if [ "$hora" == "00:00" ]; then
-        break
-    fi
+        IFS=":" read -r hora minutos <<< "$hora_minutos"
+        if [ "$hora_minutos" == "00:00" ]; then
+                exit 0;
+        fi
 
-    if [[ ! "$hora" =~ ^[0-2][0-9]:[0-5][0-9]$ ]]; then
-        continue
-    fi
-    
-    minutos_reinicio=$(date -d "00:00" +"%s")/60
-    minutos_ingresados=$(date -d "$hora" +"%s")/60
+        minutos_restantes=$(tiempo_restante)
 
-    # Calcular la diferencia de minutos hasta el reinicio
-    echo "$minutos_ingresados"
-    echo "$minutos_reinicio"
-    diferencia_minutos=$((minutos_reinicio - minutos_ingresados))
-
-    # Mostrar el resultado
-    echo "$diferencia_minutos"
+        echo "$minutos_restantes"
 done
