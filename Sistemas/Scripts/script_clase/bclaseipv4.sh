@@ -1,10 +1,11 @@
-#! /bin/bash
+#!/bin/bash
 
 while true; do
   read ip
   primer_octeto=$(echo $ip | cut -f1 -d.)
  
   if [ $primer_octeto -eq 0 ]; then
+        echo "A"
 	exit 0
   fi
  
@@ -18,7 +19,5 @@ while true; do
     echo "D"
   elif [[ $primer_octeto -ge 240 && $primer_octeto -lt 256 ]]; then
     echo "E"
-  else
-    echo "Introduce una ip correcta"
   fi
 done
